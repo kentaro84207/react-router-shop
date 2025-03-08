@@ -3,6 +3,7 @@ import { Form } from "react-router";
 import { products } from "~/models/product";
 import { getSession, commitSession } from "~/utils/session.server";
 import type { Route } from "./+types/products";
+import type { Cart } from "~/types/cart";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const productId = params.id;
@@ -29,16 +30,22 @@ export async function action({ params, request }: Route.ActionArgs) {
   }
 
   const session = await getSession(request.headers.get("Cookie"));
-  const cart = session.get("cart");
+  const cart: Cart = session.get("cart");
 
   // カートに商品を追加
   const cartItems = cart?.items || [];
-  cartItems.push({
-    productId: product.id,
-    name: product.name,
-    price: product.price,
-    quantity: 1,
-  });
+  const existingItem = cartItems.find((item) => item.productId === product.id);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cartItems.push({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+  }
 
   session.set("cart", { ...cart, items: cartItems });
 

@@ -8,7 +8,7 @@ export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-gray-200">
         <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold hover:text-gray-200">
+          <Link to="/" className="text-xl font-bold">
             <div>The shop</div>
           </Link>
           <ul className="flex space-x-6">

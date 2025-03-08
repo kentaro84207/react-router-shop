@@ -1,18 +1,5 @@
 import { createCookieSessionStorage } from "react-router";
 
-// カート内のアイテムの型定義
-export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-// カート全体の型定義
-export interface Cart {
-  items?: CartItem[];
-}
-
 // セッションストレージの作成
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
