@@ -8,24 +8,27 @@ export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-gray-200">
         <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold hover:text-blue-200">
+          <Link to="/" className="text-xl font-bold hover:text-gray-200">
             <div>The shop</div>
           </Link>
           <ul className="flex space-x-6">
             <li>
-              <Link to="/" className="hover:text-blue-200 transition-colors">
+              <Link to="/" className="hover:text-gray-200 transition-colors">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/cart" className="hover:text-blue-200 transition-colors">
+              <Link
+                to="/cart"
+                className="hover:text-gray-200 transition-colors"
+              >
                 Cart
               </Link>
             </li>
             <li>
               <Link
                 to="/login"
-                className="hover:text-blue-200 transition-colors"
+                className="hover:text-gray-200 transition-colors"
               >
                 Login
               </Link>
