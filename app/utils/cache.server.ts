@@ -47,7 +47,7 @@ export async function getCache<T>(key: string): Promise<T | null> {
 export async function setCache<T>(
   key: string,
   value: T,
-  expireInSeconds = 10,
+  expireInSeconds = 60,
 ): Promise<void> {
   try {
     await client.set(key, JSON.stringify(value), {
