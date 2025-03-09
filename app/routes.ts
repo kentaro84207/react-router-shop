@@ -17,6 +17,7 @@ export default [
       route("complete", "routes/checkout/complete.tsx"),
     ]),
     route("login", "routes/login.tsx"),
+    route("redis-test", "routes/redis-test.tsx"),
   ]),
   route("cart/:productId/destroy", "routes/cart-destroy.tsx"),
 ] satisfies RouteConfig;
