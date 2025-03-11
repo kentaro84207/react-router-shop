@@ -16,6 +16,7 @@
     "isbot": "^5.1.17",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-focus-lock": "^2.13.6",
     "react-router": "^7.3.0",
     "redis": "^4.7.0"
   },
