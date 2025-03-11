@@ -1,5 +1,8 @@
 import { Link } from "react-router";
 import { products } from "~/models/product";
+import { Popover, type PopoverHandle } from "~/ui/popover";
+import { useRef } from "react";
+import FocusLock, { AutoFocusInside } from "react-focus-lock";
 
 export function meta() {
   return [
@@ -7,6 +10,65 @@ export function meta() {
     { name: "description", content: "React Router Shopの商品一覧ページです" },
   ];
 }
+
+// 使用例
+export const PopoverExample: React.FC = () => {
+  const popoverRef = useRef<PopoverHandle>(null);
+
+  return (
+    <>
+      <Popover
+        ref={popoverRef}
+        id="navigation-popover"
+        // trigger={<button className="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer">メニューを開く</button>}
+      >
+        <div className="popover-content">
+          <h3>ナビゲーション</h3>
+          <nav>
+            <ul>
+              <li>
+                <a href="/">ホーム</a>
+              </li>
+              <li>
+                <a href="/about">会社概要</a>
+              </li>
+              <li>
+                <a href="/services">サービス</a>
+              </li>
+              <li>
+                <a href="/contact">お問い合わせ</a>
+              </li>
+            </ul>
+          </nav>
+          <button
+            type="button"
+            onClick={() => popoverRef.current?.hidePopover()}
+          >
+            閉じる
+          </button>
+        </div>
+      </Popover>
+
+      {/* 外部からのコントロール例 */}
+      <div className="external-controls" style={{ marginTop: "20px" }}>
+        <button
+          type="button"
+          onClick={() => popoverRef.current?.showPopover()}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+        >
+          ポップオーバーを開く
+        </button>
+        <button
+          type="button"
+          onClick={() => popoverRef.current?.hidePopover()}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+        >
+          ポップオーバーを閉じる
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default function Home() {
   return (
@@ -34,6 +96,8 @@ export default function Home() {
           </Link>
         ))}
       </div>
+
+      <PopoverExample />
     </div>
   );
 }
