@@ -14,6 +14,7 @@ export default [
     route("checkout", "routes/checkout.tsx"),
     ...prefix("checkout", [
       route("confirm", "routes/checkout/confirm.tsx"),
+      route("payment", "routes/checkout/payment.tsx"),
       route("complete", "routes/checkout/complete.tsx"),
     ]),
     route("login", "routes/login.tsx"),
