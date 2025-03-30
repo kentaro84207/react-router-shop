@@ -1,6 +1,7 @@
-import { getSession, commitSession } from "~/utils/session.server";
-import type { Route } from "./+types/confirm";
-import { Form, redirect, Link } from "react-router";
+import { Link } from "react-router";
+import { getFormData, type OrderFormData } from "~/utils/clientSessionStorage";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 export function meta() {
   return [
@@ -9,39 +10,18 @@ export function meta() {
   ];
 }
 
-// ダミー送信処理
-// 送信成功を返却する
-const submit = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return true;
-};
+export default function Confirm() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<OrderFormData | null>(null);
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const userInfo = session.get("userInfo");
-  return { userInfo };
-}
-
-export async function action({ request }: Route.ActionArgs) {
-  // ダミー送信処理
-  const success = await submit();
-  if (!success) {
-    return redirect("/checkout");
-  }
-
-  const session = await getSession(request.headers.get("Cookie"));
-  session.unset("cart");
-  session.unset("userInfo");
-
-  return redirect("/checkout/complete", {
-    headers: {
-      "Set-Cookie": await commitSession(session),
-    },
-  });
-}
-
-export default function Confirm({ loaderData }: Route.ComponentProps) {
-  const { userInfo } = loaderData;
+  useEffect(() => {
+    const data = getFormData();
+    if (!data) {
+      navigate("/checkout");
+    } else {
+      setFormData(data);
+    }
+  }, [navigate]);
 
   return (
     <div className="max-w-md mx-auto p-6">
@@ -49,21 +29,25 @@ export default function Confirm({ loaderData }: Route.ComponentProps) {
       <div className="space-y-4 mb-4">
         <div>
           <div className="font-medium">お名前</div>
-          <div className="mt-1">{userInfo.name}</div>
+          <div className="mt-1">{formData?.name}</div>
+        </div>
+        <div>
+          <div className="font-medium">メールアドレス</div>
+          <div className="mt-1">{formData?.email}</div>
         </div>
         <div>
           <div className="font-medium">住所</div>
-          <div className="mt-1">{userInfo.address}</div>
+          <div className="mt-1">{formData?.address}</div>
         </div>
       </div>
-      <Form method="post">
+      <Link to="/checkout/payment">
         <button
-          type="submit"
+          type="button"
           className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-600 cursor-pointer"
         >
-          注文を確定する
+          お支払い方法へ進む
         </button>
-      </Form>
+      </Link>
       <div className="mt-4 text-center">
         <Link to="/checkout" className="underline cursor-pointer">
           入力に戻る
